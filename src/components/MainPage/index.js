@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import { Button, InputGroup, FormControl, Image } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Button, Image, Card, Row, Col } from 'react-bootstrap';
 import './index.css';
 import axios from 'axios';
+import right from '../../asset/right.png';
+import left from '../../asset/left.png';
 
 class Main extends Component {
     state = {
-        coodinateX:'',
-        coodinateY:'',
-        imageURL:''
+        latitude:'',
+        longitude:'',
+        imageURL:[],
+        imageDownload:[],
+        summary:[],
+        index:null
     }
 
     handleChange = e => {
@@ -18,60 +22,104 @@ class Main extends Component {
         this.setState({ [name]: value }, () => console.log(this.state));
     };
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
+        this.setState({imageURL:[],imageDownload:[],summary:[],index:null})
         e.preventDefault();
-        window.location.href = "/infor";
-        console.log(`
-            User Information
-            coodinateX: ${this.state.coodinateX},
-            coodinateY: ${this.state.coodinateY}
-            `)
-        // const res = axios.get(`https://data.eodms-sgdot.nrcan-rncan.gc.ca/api/dhus/v1/products/Radarsat1/search?q=footprint:Intersects((${this.state.coodinateX},${this.state.coodinateY}))`, {
-        //         auth: {
-        //         username: 'codyzhang',
-        //         password: 'Juanjuan780' 
-        //         }
-        //     }).catch(err => console.log(err));
-        // console.log(res)
+
+        const res = await axios.get(`https://data.eodms-sgdot.nrcan-rncan.gc.ca/api/dhus/v1/products/Radarsat1/search?q=footprint:Intersects((${this.state.longitude},${this.state.latitude}))`, {
+                auth: {
+                username: 'codyzhang',
+                password: 'Juanjuan780' 
+                }
+            }).catch(err => console.log(err));
+        const data = res.data.entry;
+        const long = data.length;
+
+        for (let i = 0; i < long; i++){
+            this.setState(() => {
+                this.state.summary.push(data[i].summary);
+                this.state.imageURL.push(data[i].link[1].href);
+                this.state.imageDownload.push(data[i].link[2].href);
+                
+            })
+        }
+        console.log(this.state.summary)
+        this.setState({index:0});
     }
 
+    clickLeft = e => {
+        if (this.state.index === 0){
+            return
+        } else {
+            this.setState({index: this.state.index - 1})
+        }
+    }
+
+    clickRight = e => {
+        if (this.state.index === 9){
+            return
+        } else {
+            this.setState({index: this.state.index + 1})
+        }
+    }
 
     render(){
         return (
-            <div>
+            <>
                 <form onSubmit={this.handleSubmit}>
-                    <div className="coodinateX">
-                        <label htmlFor="coodinateX">CoodinateX</label>
+                    <div className="latitude">
+                        <label htmlFor="latitude">latitude</label>
                         <input
-                            placeholder="coodinateX"
+                            placeholder="latitude"
                             type="float"
-                            name="coodinateX"
+                            name="latitude"
                             onChange={this.handleChange}
                         />
                     </div>
-                    <div className="coodinateY">
-                        <label htmlFor="coodinateY">CoodinateY</label>
+                    <div className="longitude">
+                        <label htmlFor="longitude">longitude</label>
                         <input
-                            placeholder="coodinateY"
+                            placeholder="longitude"
                             type="float"
-                            name="coodinateY"
+                            name="longitude"
                             onChange={this.handleChange}
                         />
                     </div>
                     <div>
-                        <button type="submit">Summit</button>
+                        <button type="submit">Submit</button>
                     </div>
-                    <div>
-                        { this.state.imageURL ? 
-                        <Image className="realImage" src={this.state.imageURL}/>
-                        :
-                        <Image className="emptyImage" src={'http://sumeyyaarar.com/wp-content/uploads/2018/07/empty_baslik.png'} fluid />
-                        }
+                </form>
+                <Card style={{ width: '100%' }}>
+                    <Row>
+                        <Col lg={2}>
+                            <Image src={left} onClick={this.clickLeft} />
+                        </Col>
+                        <Col lg={8} >
+                            <Card.Img 
+                                className="imageSize"
+                                variant="top" 
+                                src={this.state.imageURL[this.state.index]} 
+                            />
+                            <Card.Body className="summary">
+                                <Card.Title>Picture Summary</Card.Title>
+                                <Card.Text>
+                                {this.state.summary[this.state.index]}
+                                </Card.Text>
+                                <Button variant="warning" >
+                                    <a href={this.state.imageDownload[this.state.index]} download>
+                                       Download HD Image
+                                    </a>
+                                </Button>
+                            </Card.Body>
+                        </Col>
+                        <Col lg={2} >
+                            <Image  src={right} onClick={this.clickRight} />
+                        </Col>
+                    </Row>
                         
-                        
-                    </div>
-              </form>
-            </div>
+                    
+                </Card>
+            </>
         )
     }
     

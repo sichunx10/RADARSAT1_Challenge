@@ -2,3 +2,7 @@
     height: 300;
     width: 40%;
 }
+
+.imageSize{
+    max-height: 500px;
+}

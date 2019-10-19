@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Main from './components/MainPage';
-import Infor from './components/InforPage';
+import Index from './components/IndexPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
@@ -9,8 +10,8 @@ const App = () => {
   return (
     <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={Main} />
-          <Route exact path="/infor" component={Infor} />
+          <Route exact path="/main" component={Main} />
+          <Route exact path="/" component={Index} />
 
         </Switch>
     </BrowserRouter>
