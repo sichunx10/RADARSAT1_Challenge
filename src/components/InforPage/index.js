@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Button, InputGroup, FormControl, Image } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import './index.css';
 import axios from 'axios';
 
-class Main extends Component {
+class Infor extends Component {
     state = {
         coodinateX:'',
         coodinateY:'',
@@ -12,6 +11,7 @@ class Main extends Component {
     }
 
     handleChange = e => {
+        
         e.preventDefault();
         const { name, value } = e.target;
         // Update State and Call Back State
@@ -19,8 +19,8 @@ class Main extends Component {
     };
 
     handleSubmit = (e) => {
+        window.location.href = "/";
         e.preventDefault();
-        window.location.href = "/infor";
         console.log(`
             User Information
             coodinateX: ${this.state.coodinateX},
@@ -39,6 +39,7 @@ class Main extends Component {
     render(){
         return (
             <div>
+                <div>here is infor page!</div>
                 <form onSubmit={this.handleSubmit}>
                     <div className="coodinateX">
                         <label htmlFor="coodinateX">CoodinateX</label>
@@ -59,7 +60,7 @@ class Main extends Component {
                         />
                     </div>
                     <div>
-                        <button type="submit">Summit</button>
+                        <button type="submit">Submmit</button>
                     </div>
                     <div>
                         { this.state.imageURL ? 
@@ -77,4 +78,4 @@ class Main extends Component {
     
 }
 
-export default Main;
+export default Infor;
