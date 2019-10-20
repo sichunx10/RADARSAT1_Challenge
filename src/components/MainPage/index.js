@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
 import { Button, Image, Card, Row, Col } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 import './index.css';
 import axios from 'axios';
 import right from '../../asset/right.png';
 import left from '../../asset/left.png';
 
 class Main extends Component {
-    state = {
-        latitude:'',
-        longitude:'',
-        imageURL:[],
-        imageDownload:[],
-        summary:[],
-        index:null
+    constructor(props){
+        super(props)
+        console.log(this.props.location.pathname.slice(8,-1).split(',')[0])
+        console.log(this.props.location.pathname.slice(8,-1).split(',')[1])
+        this.state = {
+            latitude:this.props.location.pathname.slice(8,-1).split(',')[0],
+            longitude:this.props.location.pathname.slice(8,-1).split(',')[1],
+            imageURL:[],
+            imageDownload:[],
+            summary:[],
+            index:null
+        }
     }
 
-    handleChange = e => {
-        e.preventDefault();
-        const { name, value } = e.target;
-        // Update State and Call Back State
-        this.setState({ [name]: value }, () => console.log(this.state));
-    };
-
-    handleSubmit = async (e) => {
+    showPicture = async (e) => {
         this.setState({imageURL:[],imageDownload:[],summary:[],index:null})
         e.preventDefault();
 
@@ -66,29 +65,8 @@ class Main extends Component {
     render(){
         return (
             <>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="latitude">
-                        <label htmlFor="latitude">latitude</label>
-                        <input
-                            placeholder="latitude"
-                            type="float"
-                            name="latitude"
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="longitude">
-                        <label htmlFor="longitude">longitude</label>
-                        <input
-                            placeholder="longitude"
-                            type="float"
-                            name="longitude"
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div>
-                        <button type="submit">Submit</button>
-                    </div>
-                </form>
+            <Button onClick={this.showPicture}>Show Pictures!</Button>
+            <Link to='/'>Go back</Link>
                 <Card style={{ width: '100%' }}>
                     <Row>
                         <Col lg={2}>

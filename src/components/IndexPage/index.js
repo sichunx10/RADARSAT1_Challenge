@@ -1,52 +1,40 @@
 import React, { Component } from 'react';
-import { Button, Image, Card, Row, Col } from 'react-bootstrap';
+import { Button, DropdownButton, Dropdown} from 'react-bootstrap';
+import { Link } from "react-router-dom";
 import { GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
-import CurrentLocation from '../../api/Map';
+import Map from '../../api/Map';
 import './index.css';
+import cities from '../../asset/CityDict.js';
 
 class Index extends Component {
     state = {
         latitude:'',
-        longitude:'',
-        showingInfoWindow: false,
-        origin: null,
-        destination: null,
-        activeMarker: {},
-        selectedPlace: {}
+        longitude:''
     }
-
+    
     handleChange = e => {
         e.preventDefault();
         const { name, value } = e.target;
         this.setState({ [name]: value }, () => console.log(this.state));
     };
 
-    handleSubmit = async (e) => {
-        e.preventDefault();
-
+    confirm =()=> {
+        window.location.href=`/main/:(${this.state.latitude},${this.state.longitude})`;
     }
-    onMarkerClick = (props, marker, e) =>
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true
-    });
 
-    onClose = props => {
-        if (this.state.showingInfoWindow) {
-        this.setState({
-            showingInfoWindow: false,
-            activeMarker: null
-        });
+    city = async ()=> {
+        let citiesArray = [];
+        console.log(cities)
+        for (let city in cities){
+            citiesArray.push(city)
+            console.log(citiesArray)
         }
-    };
-
+    }
+    
     render(){
         return (
             <>
                 <form onSubmit={this.handleSubmit}>
-                    <Row>
-                        <Col>
                             <div className="latitude">
                                 <label htmlFor="latitude">latitude</label>
                                 <input
@@ -65,33 +53,17 @@ class Index extends Component {
                                     onChange={this.handleChange}
                                 />
                             </div>
-                        </Col>
-                        <Col>
-                            <div>
-                                <button type="submit">Submit</button>
-                            </div>
-                        </Col>
-                    </Row>
-                    
-                   
                 </form>
-                <CurrentLocation 
-                    centerAroundCurrentLocation 
-                    google={this.props.google}
-                    newLongitude = {this.state.longitude}
-                    newLatitude = {this.state.latitude}
-                >
-                    <Marker onClick={this.onMarkerClick} name={'current location'} />
-                    <InfoWindow
-                    marker={this.state.activeMarker}
-                    visible={this.state.showingInfoWindow}
-                    onClose={this.onClose}
-                    >
-                    <div>
-                        <h4>{this.state.selectedPlace.name}</h4>
-                    </div>
-                    </InfoWindow>
-                </CurrentLocation>
+                {/* <DropdownButton id="dropdown-basic-button" title="Dropdown button">
+                    <Dropdown.Item ></Dropdown.Item>
+                </DropdownButton> */}
+                <Button onClick={this.city}>Confirm</Button>
+                <Map 
+                    latitude={this.state.latitude}
+                    longitude={this.state.longitude}
+                />
+                <Button onClick={this.confirm}>Confirm</Button>
+                
             </>
         )
     }
