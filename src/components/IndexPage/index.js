@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { GoogleApiWrapper } from 'google-maps-react';
 import Map from '../../api/Map';
 import './index.css';
-import cities from '../../asset/dict';
 
 class Index extends Component {
     state = {
