@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Button, DropdownButton, Dropdown} from 'react-bootstrap';
+import { Button, Row, Col, Badge, Navbar } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import { GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import { GoogleApiWrapper } from 'google-maps-react';
 import Map from '../../api/Map';
 import './index.css';
-import cities from '../../asset/CityDict.js';
+import cities from '../../asset/dict';
 
 class Index extends Component {
     state = {
         latitude:'',
-        longitude:''
+        longitude:'',
     }
     
     handleChange = e => {
@@ -21,49 +21,60 @@ class Index extends Component {
     confirm =()=> {
         window.location.href=`/main/:(${this.state.latitude},${this.state.longitude})`;
     }
-
-    city = async ()=> {
-        let citiesArray = [];
-        console.log(cities)
-        for (let city in cities){
-            citiesArray.push(city)
-            console.log(citiesArray)
-        }
-    }
     
     render(){
         return (
             <>
-                <form onSubmit={this.handleSubmit}>
-                            <div className="latitude">
-                                <label htmlFor="latitude">latitude</label>
-                                <input
-                                    placeholder="latitude"
-                                    type="float"
-                                    name="latitude"
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                            <div className="longitude">
-                                <label htmlFor="longitude">longitude</label>
-                                <input
-                                    placeholder="longitude"
-                                    type="float"
-                                    name="longitude"
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                </form>
-                {/* <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-                    <Dropdown.Item ></Dropdown.Item>
-                </DropdownButton> */}
-                <Button onClick={this.city}>Confirm</Button>
-                <Map 
-                    latitude={this.state.latitude}
-                    longitude={this.state.longitude}
-                />
-                <Button onClick={this.confirm}>Confirm</Button>
-                
+            <Navbar bg="dark" variant="dark">
+                <Navbar.Brand href="/">
+                {"RADARSAT Challenge"}
+                </Navbar.Brand>
+            </Navbar>
+            <Row>
+                <Col lg="3">
+                    <div className="form-group">
+                        <label htmlFor="formGroupExampleInput">Latitude</label>
+                        <input
+                            placeholder="Ex:43.6532"
+                            type="float"
+                            className="form-control"
+                            id="formGroupExampleInput"
+                            name="latitude"
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                </Col>
+                <Col lg="3">
+                    <div className="form-group">
+                        <label htmlFor="formGroupExampleInput">Longitude</label>
+                        <input
+                            placeholder="Ex:-79.3832"
+                            type="float"
+                            className="form-control"
+                            id="formGroupExampleInput"
+                            name="longitude"
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                </Col>
+                <Col>
+                <Link to='/details' >City Details</Link>
+                </Col>
+            </Row>
+            <Row>
+                <Col lg="11">
+                    <Map 
+                        latitude={this.state.latitude}
+                        longitude={this.state.longitude}
+                    />
+                </Col>
+                <Col lg="1">
+                    <Button className="button" onClick={this.confirm}>Confirm</Button>
+                </Col>
+            </Row>
+            <h5 className="words">@Copyright DSCX Team</h5>
+            
+            
             </>
         )
     }

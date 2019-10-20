@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import GoogleMapReact from "google-map-react";
+import { Button, Row, Col } from 'react-bootstrap';
 import { withGoogleMap, GoogleMap, InfoWindow } from "google-map-react";
 import Geolocation from "react-geolocation";
 import location from '../asset/location.png';
@@ -37,9 +38,9 @@ export default class Map extends Component {
         <>
         <div
         className="google-map"
-        style={{ height: "80vh", width: "100%" }}
+        style={{ height: "70vh", width: "100%" }}
         >
-        <button onClick={this.geoSuccess}>Get Location</button>
+        <Button onClick={this.geoSuccess} variant="success">Get Location</Button>
         
         <GoogleMapReact
             

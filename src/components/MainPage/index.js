@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Image, Card, Row, Col } from 'react-bootstrap';
+import { Button, Image, Card, Row, Col, Navbar } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import './index.css';
 import axios from 'axios';
@@ -17,6 +17,8 @@ class Main extends Component {
             imageURL:[],
             imageDownload:[],
             summary:[],
+            productorientation:[],
+            title:[],
             index:null
         }
     }
@@ -25,7 +27,7 @@ class Main extends Component {
         this.setState({imageURL:[],imageDownload:[],summary:[],index:null})
         e.preventDefault();
 
-        const res = await axios.get(`https://data.eodms-sgdot.nrcan-rncan.gc.ca/api/dhus/v1/products/Radarsat1/search?q=footprint:Intersects((${this.state.longitude},${this.state.latitude}))`, {
+        const res = await axios.get(`https://data.eodms-sgdot.nrcan-rncan.gc.ca/api/dhus/v1/products/Radarsat1/search?q=footprint:Intersects((${this.state.longitude},${this.state.latitude}))&start=0&rows=100`, {
                 auth: {
                 username: 'codyzhang',
                 password: 'Juanjuan780' 
@@ -37,6 +39,8 @@ class Main extends Component {
         for (let i = 0; i < long; i++){
             this.setState(() => {
                 this.state.summary.push(data[i].summary);
+                this.state.productorientation.push(data[i].productorientation)
+                this.state.title.push(data[i].title)
                 this.state.imageURL.push(data[i].link[1].href);
                 this.state.imageDownload.push(data[i].link[2].href);
                 
@@ -65,6 +69,11 @@ class Main extends Component {
     render(){
         return (
             <>
+            <Navbar bg="dark" variant="dark">
+                <Navbar.Brand href="/">
+                {"RADARSAT Challenge"}
+                </Navbar.Brand>
+            </Navbar>
             <Button onClick={this.showPicture}>Show Pictures!</Button>
             <Link to='/'>Go back</Link>
                 <Card style={{ width: '100%' }}>
@@ -81,7 +90,14 @@ class Main extends Component {
                             <Card.Body className="summary">
                                 <Card.Title>Picture Summary</Card.Title>
                                 <Card.Text>
+                                Title: {this.state.title[this.state.index]}
+                                </Card.Text>
+                                <Card.Text>
                                 {this.state.summary[this.state.index]}
+                                </Card.Text>
+                                <Card.Text>
+                                Beam Mode: {this.state.productorientation[this.state.index] 
+                                    ? this.state.productorientation[this.state.index] : "N/A"}
                                 </Card.Text>
                                 <Button variant="warning" >
                                     <a href={this.state.imageDownload[this.state.index]} download>
