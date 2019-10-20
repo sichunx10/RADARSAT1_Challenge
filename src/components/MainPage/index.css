@@ -4,5 +4,9 @@
 }
 
 .imageSize{
-    max-height: 500px;
+    max-height: 530px;
+}
+.imga{
+    max-width: 100px;
+    left: 25px;
 }

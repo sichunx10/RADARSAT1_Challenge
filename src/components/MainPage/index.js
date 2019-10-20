@@ -74,14 +74,13 @@ class Main extends Component {
                 {"RADARSAT Challenge"}
                 </Navbar.Brand>
             </Navbar>
-            <Button onClick={this.showPicture}>Show Pictures!</Button>
-            <Link to='/'>Go back</Link>
-                <Card style={{ width: '100%' }}>
+            <Button variant="info" onClick={this.showPicture}>Show Pictures!</Button>
+                <Card style={{ width: '100%', height:'760px'}}>
                     <Row>
-                        <Col lg={2}>
-                            <Image src={left} onClick={this.clickLeft} />
+                        <Col lg={1}>
+                            <Image className="imga" src={left} onClick={this.clickLeft} />
                         </Col>
-                        <Col lg={8} >
+                        <Col lg={10} >
                             <Card.Img 
                                 className="imageSize"
                                 variant="top" 
@@ -106,8 +105,8 @@ class Main extends Component {
                                 </Button>
                             </Card.Body>
                         </Col>
-                        <Col lg={2} >
-                            <Image  src={right} onClick={this.clickRight} />
+                        <Col lg={1} >
+                            <Image  className="imga" src={right} onClick={this.clickRight} />
                         </Col>
                     </Row>
                         

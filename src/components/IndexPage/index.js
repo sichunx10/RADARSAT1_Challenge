@@ -30,7 +30,7 @@ class Index extends Component {
                 </Navbar.Brand>
             </Navbar>
             <Row>
-                <Col lg="3">
+                <Col lg="4">
                     <div className="form-group">
                         <label htmlFor="formGroupExampleInput">Latitude</label>
                         <input
@@ -43,7 +43,7 @@ class Index extends Component {
                         />
                     </div>
                 </Col>
-                <Col lg="3">
+                <Col lg="4">
                     <div className="form-group">
                         <label htmlFor="formGroupExampleInput">Longitude</label>
                         <input
@@ -56,10 +56,8 @@ class Index extends Component {
                         />
                     </div>
                 </Col>
-                <Col>
-                <Link to='/details' >City Details</Link>
-                </Col>
             </Row>
+            <Link to='/details' >City Details</Link>
             <Row>
                 <Col lg="11">
                     <Map 
@@ -68,10 +66,9 @@ class Index extends Component {
                     />
                 </Col>
                 <Col lg="1">
-                    <Button className="button" onClick={this.confirm}>Confirm</Button>
+                    <Button className="button1" onClick={this.confirm}>Confirm</Button>
                 </Col>
             </Row>
-            <h5 className="words">@Copyright DSCX Team</h5>
             
             
             </>

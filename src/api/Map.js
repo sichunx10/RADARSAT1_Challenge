@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import GoogleMapReact from "google-map-react";
-import { Button, Row, Col } from 'react-bootstrap';
+import { Button, Row, Col, Container } from 'react-bootstrap';
 import { withGoogleMap, GoogleMap, InfoWindow } from "google-map-react";
 import Geolocation from "react-geolocation";
 import location from '../asset/location.png';
@@ -16,8 +16,8 @@ export default class Map extends Component {
     super(props);
 
     this.state = {
-        center: { lat: 40.744679, lng: -73.948542 },
-        zoom: 4.5
+        center: { lat: 43.650, lng: -79.380 },
+        zoom: 5.5
       };
     console.log(props)
   }
@@ -36,22 +36,35 @@ export default class Map extends Component {
   render() {
     return (
         <>
-        <div
-        className="google-map"
-        style={{ height: "70vh", width: "100%" }}
-        >
-        <Button onClick={this.geoSuccess} variant="success">Get Location</Button>
+        <Container className="map">
+        <Row>
+          <Col lg="11">
+          <div
+          className="google-map"
+          style={{ height: "75vh", width: "100%"}}
+          >
         
-        <GoogleMapReact
-            
-            bootstrapURLKeys={{
-                key: 'AIzaSyDZ6LLCf_H_2jGMjh3oxB75j-lhUUel52A' }}
-                center={this.state.center}
-                zoom={this.state.zoom}
-            >
-            <Marker lat={this.state.center.lat} lng={this.state.center.lng} />
-        </GoogleMapReact>
-        </div>
+            <GoogleMapReact
+              
+                bootstrapURLKeys={{
+                    key: 'AIzaSyDZ6LLCf_H_2jGMjh3oxB75j-lhUUel52A' }}
+                    center={this.state.center}
+                    zoom={this.state.zoom}
+                >
+                <Marker lat={this.state.center.lat} lng={this.state.center.lng} />
+            </GoogleMapReact>
+          </div>
+          </Col>
+          <Col lg="1">
+          <Button className="button" onClick={this.geoSuccess} variant="success">Get Location</Button>
+          </Col>
+        </Row>
+        
+       
+        </Container>
+        
+
+        
         </>
     );
   }
